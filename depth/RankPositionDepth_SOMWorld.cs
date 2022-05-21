@@ -29,7 +29,7 @@ namespace LineupEngine
         private static double[] centerMult  = {   0, 12.6, 25.2, 46.2, 63.0 };
         private static double[] rightMult   = {   0,  8.4, 16.8, 30.8, 42.0 };
 
-        public double calculateCatcherDefScore(int range, int eRating)
+        public double calculateCatcherDefScore(int range, int eRating, int throwingArm)
         {
             return catcherMult[range - 1] + eRating;
         }
@@ -49,15 +49,15 @@ namespace LineupEngine
         {
             return shortMult[range - 1] + eRating;
         }
-        public double calculateLeftFieldDefScore(int range, int eRating)
+        public double calculateLeftFieldDefScore(int range, int eRating, int throwingArm)
         {
             return leftMult[range - 1] + eRating;
         }
-        public double calculateCenterFieldDefScore(int range, int eRating)
+        public double calculateCenterFieldDefScore(int range, int eRating, int throwingArm)
         {
             return centerMult[range - 1] + eRating;
         }
-        public double calculateRightFieldDefScore(int range, int eRating)
+        public double calculateRightFieldDefScore(int range, int eRating, int throwingArm)
         {
             return rightMult[range - 1] + eRating;
         }

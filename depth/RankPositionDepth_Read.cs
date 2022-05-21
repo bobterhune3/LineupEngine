@@ -70,14 +70,14 @@ namespace LineupEngine
             }
         }
 
-        public double calculateCatcherDefScore(int range, int eRating)
+        public double calculateCatcherDefScore(int range, int eRating, int throwinArm)
         {
-            return 0;
+            return throwinArm * -1;
         }
 
-        public double calculateCenterFieldDefScore(int range, int eRating)
+        public double calculateCenterFieldDefScore(int range, int eRating, int throwingArm)
         {
-            return lookItUp("CF", range, eRating);
+            return lookItUp("CF", range, eRating, throwingArm);
         }
 
         public double calculateFirstBaseDefScore(int range, int eRating)
@@ -85,14 +85,14 @@ namespace LineupEngine
             return lookItUp("1B", range, eRating);
         }
 
-        public double calculateLeftFieldDefScore(int range, int eRating)
+        public double calculateLeftFieldDefScore(int range, int eRating, int throwingArm)
         {
-            return lookItUp("OF", range, eRating);
+            return lookItUp("LF", range, eRating, throwingArm);
         }
 
-        public double calculateRightFieldDefScore(int range, int eRating)
+        public double calculateRightFieldDefScore(int range, int eRating, int throwingArm)
         {
-            return lookItUp("OF", range, eRating);
+            return lookItUp("RF", range, eRating, throwingArm);
         }
 
         public double calculateSecondBaseDefScore(int range, int eRating)
@@ -112,15 +112,34 @@ namespace LineupEngine
 
         private double lookItUp(String pos, int range, int eRating)
         {
-            if (scoring[pos][range - 1].ContainsKey(eRating))
-                return scoring[pos][range - 1][eRating];
+            return lookItUp(pos, range, eRating, 0);
+        }
+
+        private double lookItUp(String pos, int range, int eRating, int throwingArm)
+        {
+            String tempPos = pos;
+            if (pos.Equals("LF") || pos.Equals("RF"))
+                tempPos = "OF";
+
+            if (scoring[tempPos][range - 1].ContainsKey(eRating))
+            {
+                double arm = 0;
+                if( pos.Equals("LF")) {  //LF - Arm give 1/2 point credit/penality
+                    arm = (double)throwingArm / 2.0;
+                }
+                else if (pos.Equals("CF") || pos.Equals("RF"))
+                {  //CF & RF- Arm give 1 point credit/penality
+                    arm = throwingArm;
+                }
+                return scoring[tempPos][range - 1][eRating] + arm;
+            }
             else
             {
-                System.Console.WriteLine("Position Def is missing: " + pos + " " + range + "e" + eRating);
+                System.Console.WriteLine("Position Def is missing: " + tempPos + " " + range + "e" + eRating);
                 return 0;
             }
         }
-                   
+
     }
 
 

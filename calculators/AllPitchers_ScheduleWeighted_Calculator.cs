@@ -88,7 +88,7 @@ namespace LineupEngine
                     bool opponentInDivision = opponentTeam.Division.Equals(targetTeam.Division);
 
                     List<Player> opponentPitchers = teamReportFile.getTeamPitchers(opponentTeam.Abrv);
-                    opponentPitchers.Sort();
+           //         opponentPitchers.Sort();
 
                     TeamPitchingProfile profile = TeamPitchingProfile.generatedLikelyUsage(opponentPitchers);
                     profile.buildTeamBalanceCount(opponentPitchers);
