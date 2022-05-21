@@ -10,23 +10,26 @@ namespace LineupEngine
 {
     public class SOMTeamReportFile
     {
-        private String m_fileName = "";
+        private string m_fileName = "";
         private Dictionary<String, List<Player>> pitcherDataByBalance = null;
         private Dictionary<Team, List<Player>> pitcherDataByTeam = null;
         private Dictionary<Team, List<Player>> batterDataByTeam = null;
         private List<Team> teams = new List<Team>();
         private Dictionary<String, TeamLineup> database = null;
-        private String lastError = "";
+        private string lastError = "";
+        private IConfig _config;
 
-        public SOMTeamReportFile(String reportPath)
+        public SOMTeamReportFile(String reportPath, IConfig config)
         {
             initialize(reportPath);
+            _config = config;
         }
 
-        public SOMTeamReportFile(String reportPath, Dictionary<String, TeamLineup> database)
+        public SOMTeamReportFile(String reportPath, Dictionary<String, TeamLineup> database,  IConfig config)
         {
             this.database = database;
             initialize(reportPath);
+            _config = config;
         }
 
         private void initialize(String reportPath)
@@ -227,7 +230,10 @@ namespace LineupEngine
                         //                 team.Abrv = matchB.Groups[2].Value.Trim();
                         player.IsHitter = true;
                         player.Bal = matchB.Groups[3].Value.Trim();
-                        player.Actual = Int32.Parse(matchB.Groups[4].Value.Trim());
+
+                        float value = 0f;
+                        float.TryParse(matchB.Groups[4].Value.Trim(), out value);
+                        player.Actual = (int)(value * _config.getABMultiplier());
                         player.Id = lookupPlayerId(player, team);
 //                        player.Id = RecordIndex.getNextId(RecordIndex.INDEX.PlayerId);
 

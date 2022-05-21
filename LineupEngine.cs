@@ -21,7 +21,7 @@ namespace LineupEngine
             // Load Stored data from database file
             StoredLineups = LineupPersistence.loadDatabase();
 
-            TeamReportFile = new SOMTeamReportFile(fileLocation, StoredLineups);
+            TeamReportFile = new SOMTeamReportFile(fileLocation, StoredLineups, new Config());
             TeamReportFile.parse();
 
             CompleteListOfTeams = TeamReportFile.getTeams();

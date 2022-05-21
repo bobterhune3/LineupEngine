@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using somReporter.team;
+using somReportUtils;
 
 namespace LineupEngine
 {
@@ -100,14 +101,16 @@ namespace LineupEngine
 
         private TeamPitchingProfile(List<Player> opponentPitchers)
         {
-            opponentPitchers.Sort();
+            IConfig config = new Config();
+            //        opponentPitchers.Sort();
+            float minIPCount = config.getMinIPAllowed();
 
             int starterCount = 0;
             int starterIPCount = 0;
             int closerCount = 0;
             foreach( Player pitcher in opponentPitchers)
             {
-                if (pitcher.IP < 31) continue;
+                if (pitcher.IP < minIPCount) continue;  //WAS 31
 
                 if(pitcher.primaryPos.Equals("SP"))
                 {
